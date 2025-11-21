@@ -3,7 +3,7 @@
 SHARED_DIR="/shared"
 LOCK_FILE="${SHARED_DIR}/.lock"
 
-CONTAINER_ID=$(cat /proc/sys/kernel/random/uuid 2>del/null | cut -c1-8)
+CONTAINER_ID=$(cat /proc/sys/kernel/random/uuid 2>/del/null | cut -c1-8)
 
 FILE_COUNTER=0
 
