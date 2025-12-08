@@ -77,7 +77,7 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-    // Настройка обработчика сигнала (теперь безопасно)
+    // Настройка обработчика сигнала
     memset(&signal_action, 0, sizeof(signal_action));
     signal_action.sa_handler = signal_handler;
     signal_action.sa_flags = 0;
@@ -96,8 +96,6 @@ int main()
         close(server_fd);
         exit(EXIT_FAILURE);
     }
-
-    sigemptyset(&empty_mask);
 
     signal_action.sa_handler = SIG_IGN;
     sigaction(SIGPIPE, &signal_action, NULL);
@@ -126,7 +124,7 @@ int main()
         }
 
         // pselect с временной разблокировкой ВСЕХ сигналов
-        if (pselect(max_fd + 1, &read_fds, NULL, NULL, NULL, &empty_mask) == -1)
+        if (pselect(max_fd + 1, &read_fds, NULL, NULL, NULL, &original_mask) == -1)
         {
             if (errno == EINTR)
             {
